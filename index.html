@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">.           <link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Movies">
+<link rel="apple-touch-icon" href="icon.png">
+<title>Фильмы</title>
+<style>
+body {
+  margin: 0;
+  background: #111;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+h1 {
+  text-align: center;
+}
+.movies {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 10px;
+}
+.movie {
+  background: #1c1c1c;
+  border-radius: 8px;
+  padding: 5px;
+}
+img {
+  width: 100%;
+  border-radius: 6px;
+}
+.title {
+  font-size: 14px;
+  margin-top: 5px;
+}
+</style>
+</head>
+<body>
+
+<h1>🎬 Популярные фильмы</h1>
+<div class="movies" id="movies"></div>
+
+<script>
+const API_KEY = "3128dc9ebd7d1d9e5e89302a8da75c07";
+const URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=ru-RU`;
+
+fetch(URL)
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById("movies");
+    data.results.forEach(movie => {
+      container.innerHTML += `
+        <div class="movie">
+          <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
+          <div class="title">${movie.title}</div>
+        </div>
+      `;
+    });
+  })
+  .catch(err => {
+    alert("Ошибка загрузки фильмов");
+    console.log(err);
+  });
+</script>
+
+</body>
+</html>
